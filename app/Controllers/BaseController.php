@@ -2,11 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Models\CategoryModel;
+use App\Models\EmployeeModel;
+use App\Models\PointageModel;
+use App\Models\ServiceModel;
+use App\Models\SmigModel;
+use App\Models\UserModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use Config\Services;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -46,7 +53,16 @@ abstract class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
+        $this->session = \Config\Services::session();
+        $this->validation = Services::validation();
 
-        // E.g.: $this->session = \Config\Services::session();
+        $this->userModel = new UserModel();
+        $this->categoryModel =  new CategoryModel();
+        $this->smigModel =  new SmigModel();
+        $this->employeeModel = new EmployeeModel();
+        $this->serviceModel = new ServiceModel();
+        $this->pointageModel = new PointageModel();
+
+        helper(['form', 'url', 'text', 'img', 'custom', 'html']);
     }
 }

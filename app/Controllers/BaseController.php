@@ -7,6 +7,7 @@ use App\Models\EmployeeModel;
 use App\Models\PointageModel;
 use App\Models\ServiceModel;
 use App\Models\SmigModel;
+use App\Models\TauxTransportModel;
 use App\Models\UserModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
@@ -57,11 +58,12 @@ abstract class BaseController extends Controller
         $this->validation = Services::validation();
 
         $this->userModel = new UserModel();
-        $this->categoryModel =  new CategoryModel();
-        $this->smigModel =  new SmigModel();
+        $this->categoryModel = new CategoryModel();
+        $this->smigModel = new SmigModel();
         $this->employeeModel = new EmployeeModel();
         $this->serviceModel = new ServiceModel();
         $this->pointageModel = new PointageModel();
+        $this->TauxTransportModel = new TauxTransportModel();
 
         helper(['form', 'url', 'text', 'img', 'custom', 'html']);
     }

@@ -45,7 +45,7 @@ class Payments extends BaseController
                 'title' => 'Précences pour l\'employé ' . $emplData->firstName,
                 'employee' => $emplData,
                 'sess_data' => session()->get('user_data'),
-                'periods' => $this->pointageModel->asObject()->distinct()->select('taillyMonth, taillyYear, taillyDate')->findAll(),
+                'periods' => $this->pointageModel->asObject()->distinct()->select('taillyMonth')->findAll(),
                 'point_data' => $this->pointageModel->asObject()->where($wheres)->findAll()
             ];
             return view('payments/presences', $data);

@@ -21,7 +21,7 @@ $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override(
-    function (){
+    function () {
         return view('errors/error-404');
     }
 );
@@ -117,6 +117,14 @@ $routes->get('presences-list/(:segment)', 'Payments::presenceList/$1');
 $routes->post('presences-list/(:segment)', 'Payments::presenceList/$1');
 $routes->post('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
 $routes->get('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
+
+
+/*
+ * Transport Taux routes
+ */
+$routes->get('add-taux', 'TauxTransports::add');
+$routes->post('add-taux', 'TauxTransports::add');
+$routes->get('taux-list', 'TauxTransports::index');
 
 
 /*

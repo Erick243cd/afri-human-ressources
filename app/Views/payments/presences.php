@@ -32,17 +32,20 @@
                             <form class="d-flex justify-content-between" method="post"
                                   action="<?= site_url('presences-list/' . $employee->id) ?>">
                                 <select class="form-control" name="yearSearch">
-                                    <option value="">Année</option>
-                                    <?php foreach ($periods as $row): ?>
-                                        <option value="<?= $row->taillyYear ?>" <?= set_select('yearSearch', $row->taillyYear) ?>><?= $row->taillyYear ?></option>
-                                    <?php endforeach; ?>
 
+                                    <option value="">Année</option>
+                                    <option value="2022" <?= set_value('yearSearch', "2022") ?>>2022</option>
+                                    <option value="2023" <?= set_value('yearSearch', "2023") ?>>2023</option>
+                                    <option value="2024" <?= set_value('yearSearch', "2024") ?>>2024</option>
+                                    <option value="2025" <?= set_value('yearSearch', "2025") ?>>2025</option>
                                 </select>
 
                                 <select class="form-control" name="monthSearch">
                                     <option value="" selected>Mois</option>
                                     <?php foreach ($periods as $row): ?>
-                                        <option value="<?= $row->taillyMonth ?>" <?= set_select('monthSearch', $row->taillyMonth) ?>><?= ucfirst(dateToFrench(date('F', strtotime($row->taillyDate)), 'F')) ?></option>
+                                        <option value="<?= $row->taillyMonth ?>" <?= set_select('monthSearch', $row->taillyMonth) ?>>
+                                            <?= ucfirst(dateToFrench('F', $row->taillyMonth)) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <input type="submit" class="btn btn-sm btn-primary" value="charger">

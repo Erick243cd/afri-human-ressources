@@ -129,6 +129,12 @@
                                     <li><a href="<?= site_url('smigs-list') ?>">Liste</a></li>
                                 </ul>
                             </li>
+                            <li class="pcoded-hasmenu"><a href="#!">Taux Transport</a>
+                                <ul class="pcoded-submenu">
+                                    <li><a href="<?= site_url('add-taux') ?>">Fixer</a></li>
+                                    <li><a href="<?= site_url('taux-list') ?>">Liste</a></li>
+                                </ul>
+                            </li>
                         <?php endif; ?>
 
                         <li><a href="<?= site_url('user-profile') ?>">Profile</a></li>

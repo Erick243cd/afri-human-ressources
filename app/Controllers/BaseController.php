@@ -9,6 +9,7 @@ use App\Models\ServiceModel;
 use App\Models\SmigModel;
 use App\Models\TauxTransportModel;
 use App\Models\UserModel;
+use App\Models\YearModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -63,7 +64,8 @@ abstract class BaseController extends Controller
         $this->employeeModel = new EmployeeModel();
         $this->serviceModel = new ServiceModel();
         $this->pointageModel = new PointageModel();
-        $this->TauxTransportModel = new TauxTransportModel();
+        $this->tauxTransportModel = new TauxTransportModel();
+        $this->yearModel = new YearModel();
 
         helper(['form', 'url', 'text', 'img', 'custom', 'html']);
     }

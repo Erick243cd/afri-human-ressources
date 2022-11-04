@@ -14,7 +14,7 @@
                         </div>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?= site_url() ?>"><i
-                                        class="feather icon-home"></i></a></li>
+                                            class="feather icon-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="#!">App</a></li>
                             <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
                         </ul>
@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-sm-6 text-right">
                                 <a class="btn btn-success btn-sm btn-round has-ripple"
-                                   href="<?= site_url('add-smig') ?>"><i class="feather icon-plus"></i> Fixer
+                                   href="<?= site_url('add-taux') ?>"><i class="feather icon-plus"></i> Fixer
                                 </a>
                             </div>
                         </div>
@@ -48,25 +48,35 @@
                             <table id="report-table" class="table table-bordered table-striped mb-0">
                                 <thead>
                                 <tr>
-                                    <th>Catégorie d'employé</th>
-                                    <th>Smig fixé</th>
-                                    <th>Devise</th>
+                                    <th>Année</th>
+                                    <th>Mois</th>
+                                    <th>Manager</th>
+                                    <th>Simple Employé</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($smigs as $row): ?>
+                                <?php foreach ($taux as $row): ?>
                                     <tr>
-                                        <td><?= $row->categoryName ?></td>
-                                        <td><?= $row->smig_amount ?></td>
-                                        <td><?= $row->currency ?></td>
-
+                                        <td><?= $row->yearName ?></td>
+                                        <td><?= $row->tauxMonth ?></td>
+                                        <td><?= number_format($row->amountManager, 2, ',', ' ') ?> CDF</td>
+                                        <td><?= number_format($row->amountSimpleEmployee, 2, ',', ' ') ?> CDF</td>
                                         <td>
-                                            <a href="<?= site_url('edit-smig/' . $row->smigId) ?>"
+                                            <span class="<?= $row->status == 1 ? 'text-success bg-light' : 'text-danger' ?>"><?= $row->status == 1 ? 'Actif' : 'Inactif' ?></span>
+                                        </td>
+                                        <td>
+                                            <a href="<?= site_url('edit-taux/' . $row->tauxId) ?>"
                                                class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>&nbsp;
-                                            <a onclick="return confirm('Cette action est irreversible, voulez-vous continuer ?');" href="<?= site_url('delete-smig/' . $row->smigId) ?>"
-                                               class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>&nbsp;
-
+                                            <?php if ($row->status == 0): ?>
+                                                <a title="Marquer comme taux courant"
+                                                   onclick="return confirm('Marquer comme taux courant ?');"
+                                                   href="<?= site_url('active-taux/' . $row->tauxId) ?>"
+                                                   class="btn btn-sm btn-success"><i
+                                                            class="fas fa-check">
+                                                    </i></a>&nbsp;
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

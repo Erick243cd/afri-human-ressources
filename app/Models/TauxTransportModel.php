@@ -11,5 +11,5 @@ class TauxTransportModel extends Model
     protected $primaryKey = 'tauxId';
     protected $useAutoIncrement = true;
 
-    protected $allowedFields = ['tauxId', 'yearId', 'tauxMonth', 'amountManager', 'amountSimpleEmployee', 'createdAt', 'userId',];
+    protected $allowedFields = ['tauxId', 'yearId', 'tauxMonth', 'amountManager', 'amountSimpleEmployee', 'createdAt', 'userId','status'];
 }

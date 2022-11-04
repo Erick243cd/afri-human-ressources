@@ -125,6 +125,9 @@ $routes->get('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
 $routes->get('add-taux', 'TauxTransports::add');
 $routes->post('add-taux', 'TauxTransports::add');
 $routes->get('taux-list', 'TauxTransports::index');
+$routes->get('edit-taux/(:segment)', 'TauxTransports::update/$1');
+$routes->post('update-taux/(:segment)', 'TauxTransports::update/$1');
+$routes->get('active-taux/(:segment)', 'TauxTransports::active/$1');
 
 
 /*

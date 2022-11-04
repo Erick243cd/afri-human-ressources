@@ -29,16 +29,21 @@
             <div class="col-sm-12">
                 <div class="card select-card">
                     <div class="card-body">
-                        <?= form_open('add-taux') ?>
+                        <?= form_open('update-taux/' . $taux->tauxId) ?>
                         <div class="row">
                             <div class="col-xl-6 col-md-6 mb-md-0 mb-sm-5">
                                 <h5>Année</h5>
                                 <hr>
                                 <select class="js-example-placeholder-multiple col-sm-12" name="year_id">
-                                    <?php foreach ($years as $row) : ?>
-                                        <option value="<?= $row->yearId ?>"<?= set_select('year_id', $row->yearId); ?>>
-                                            <?= $row->yearName ?>
-                                        </option>
+                                    <option value="<?= $taux->yearId ?>"<?= set_select('year_id', $taux->yearId); ?>>
+                                        <?= $taux->yearName ?>
+
+                                        <?php foreach ($years
+
+                                        as $row) : ?>
+                                    <option value="<?= $row->yearId ?>"<?= set_select('year_id', $row->yearId); ?>>
+                                        <?= $row->yearName ?>
+                                    </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small class="text-danger"><?= $validation['year_id'] ?? null ?></small>
@@ -48,6 +53,10 @@
                                 <h5>Mois</h5>
                                 <hr>
                                 <select class="js-example-placeholder-multiple col-sm-12" name="month_name">
+
+                                    <option value="<?= $taux->tauxMonth ?>" <?= set_select('month_name', $taux->tauxMonth); ?>><?= $taux->tauxMonth ?></option>
+
+
                                     <option value="01" <?= set_select('month_name', "01"); ?>>Janvier</option>
                                     <option value="02" <?= set_select('month_name', "02"); ?>>Février</option>
                                     <option value="03" <?= set_select('month_name', "03"); ?>>Mars</option>
@@ -71,7 +80,7 @@
                                     <label class="floating-label" for="Text">Montant journalier fixé CDF</label>
                                     <input type="number" step="any" class="form-control" id="Text" placeholder=""
                                            name="manager_amount"
-                                           value="<?= set_value('manager_amount') ?>">
+                                           value="<?= (set_value('manager_amount')) ? set_value('manager_amount') : $taux->amountManager ?>">
                                     <small class="text-danger"><?= $validation['manager_amount'] ?? null ?></small>
                                 </div>
                             </div>
@@ -82,12 +91,12 @@
                                     <label class="floating-label" for="Text">Montant journalier fixé CDF</label>
                                     <input type="number" step="any" class="form-control" id="Text" placeholder=""
                                            name="simple_amount"
-                                           value="<?= set_value('simple_amount') ?>">
+                                           value="<?= (set_value('simple_amount')) ? set_value('simple_amount') : $taux->amountSimpleEmployee ?>">
                                     <small class="text-danger"><?= $validation['simple_amount'] ?? null ?></small>
                                 </div>
                             </div>
 
-                            <button class="btn btn-success ml-3" type="submit">Fixer</button>
+                            <button class="btn btn-success ml-3" type="submit">Mettre à jour</button>
                         </div>
                     </div>
                     <?= form_close() ?>

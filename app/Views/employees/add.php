@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
-                                <h5>Service</h5>
+                                <h5>Département ou service</h5>
                                 <select class="js-example-placeholder-multiple col-sm-12" name="serviceId">
                                     <?php foreach ($services as $service) : ?>
                                         <option value="<?= $service->serviceId ?>"<?= set_select('serviceId', $service->serviceId); ?>>
@@ -93,6 +93,14 @@
                                 </select>
                                 <small class="text-danger"><?= $validation['emp_gender'] ?? null ?></small>
                             </div>
+                            <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
+                                <div class="form-group">
+                                    <label class="floating-label" for="Text">Salaire de Base USD</label>
+                                    <input type="text" class="form-control" id="Text" placeholder="" name="amount_smig"
+                                           value="<?= set_value('amount_smig') ?>">
+                                    <small class="text-danger"><?= $validation['amount_smig'] ?? null ?></small>
+                                </div>
+                            </div>
 
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
                                 <div class="form-group">
@@ -110,7 +118,9 @@
                                     <small class="text-danger"><?= $validation['emp_email'] ?? null ?></small>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
+
+
+                            <div class="col-xl-12 col-md-12 mb-md-0 mb-sm-12">
                                 <div class="form-group">
                                     <label class="floating-label" for="Text">Adresse de résidence</label>
                                     <input type="text" class="form-control" id="Text" placeholder="" name="emp_location"
@@ -118,9 +128,6 @@
                                     <small class="text-danger"><?= $validation['emp_location'] ?? null ?></small>
                                 </div>
                             </div>
-
-
-
                             <button class="btn btn-primary ml-3" type="submit">Enregistrer</button>
                         </div>
                     </div>

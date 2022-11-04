@@ -14,7 +14,7 @@ class Pointages extends BaseController
         $this->dateTime = new \DateTime();
 
         $this->dateTime->setTimezone(new DateTimeZone('Africa/Lubumbashi'));
-        $this->motif = $this->dateTime->format('H') >= 13 ? 'Avant-midi' : 'Après-midi';
+        $this->motif = $this->dateTime->format('H') >= 12 ? 'Avant-midi' : 'Après-midi';
     }
 
     public function index()

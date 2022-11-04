@@ -60,6 +60,7 @@
                                     <th>Matricule</th>
                                     <th>Catégorie</th>
                                     <th>Service</th>
+                                    <th>Salaire de base</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -68,7 +69,8 @@
                                     <tr>
                                         <td>
                                             <div class="d-inline-block align-middle">
-                                                <a href="<?= site_url('add-employee-image/'.$row->id)?>" title="Changer l'image"><img
+                                                <a href="<?= site_url('add-employee-image/' . $row->id) ?>"
+                                                   title="Changer l'image"><img
                                                             src="<?= site_url('public/assets/images/employees/' . $row->profilePicture) ?>"
                                                             alt="user image" class="img-radius align-top m-r-15"
                                                             style="width:40px;"></a>
@@ -78,6 +80,7 @@
                                         <td><?= $row->matricule ?></td>
                                         <td><?= $row->categoryName ?></td>
                                         <td><?= $row->serviceName ?></td>
+                                        <td><?= number_format($row->amountSmig, 2, ',', ' ') ?> $</td>
                                         <td>
                                             <a href="<?= site_url('edit-employee/' . $row->id) ?>"
                                                class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>&nbsp;

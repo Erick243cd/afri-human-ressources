@@ -12,7 +12,7 @@ class EmployeeModel extends Model
     protected $useAutoIncrement = true;
 
     protected $allowedFields = ['id', 'matricule', 'firstName', 'lastName',
-        'phone', 'address', 'email', 'profilePicture', 'categoryId', 'serviceId', 'gender', 'dateEngagement'];
+        'phone', 'address', 'email', 'profilePicture', 'categoryId', 'serviceId', 'gender', 'dateEngagement', 'amountSmig'];
 
 
 }

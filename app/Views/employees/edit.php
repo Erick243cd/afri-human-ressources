@@ -29,7 +29,7 @@
             <div class="col-sm-12">
                 <div class="card select-card">
                     <div class="card-body">
-                        <?= form_open('edit-employee/'.$employee->id) ?>
+                        <?= form_open('edit-employee/' . $employee->id) ?>
                         <div class="row">
 
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
@@ -67,10 +67,12 @@
                                             value="<?= $employee->serviceId ?>"<?= set_select('serviceId', $employee->serviceId); ?>>
                                         <?= $employee->serviceName ?>
 
-                                    <?php foreach ($services as $service) : ?>
-                                        <option value="<?= $service->serviceId ?>"<?= set_select('serviceId', $service->serviceId); ?>>
-                                            <?= $service->serviceName ?>
-                                        </option>
+                                        <?php foreach ($services
+
+                                        as $service) : ?>
+                                    <option value="<?= $service->serviceId ?>"<?= set_select('serviceId', $service->serviceId); ?>>
+                                        <?= $service->serviceName ?>
+                                    </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small class="text-danger"><?= $validation['serviceId'] ?? null ?></small>
@@ -82,16 +84,16 @@
                                     <option selected
                                             value="<?= $employee->categoryId ?>"<?= set_select('categoryId', $employee->categoryId); ?>>
                                         <?= $employee->categoryName ?>
-                                    <?php foreach ($categories as $category) : ?>
-                                        <option value="<?= $category->categoryId ?>"<?= set_select('categoryId', $category->categoryId); ?>>
-                                            <?= $category->categoryName ?>
-                                        </option>
+                                        <?php foreach ($categories
+
+                                        as $category) : ?>
+                                    <option value="<?= $category->categoryId ?>"<?= set_select('categoryId', $category->categoryId); ?>>
+                                        <?= $category->categoryName ?>
+                                    </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small class="text-danger"><?= $validation['categoryId'] ?? null ?></small>
                             </div>
-
-
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
                                 <h5>Genre</h5>
                                 <select class="js-example-placeholder-multiple col-sm-12" name="emp_gender">
@@ -102,6 +104,14 @@
                                     <option value="F" <?= set_select('emp_gender', "F"); ?>>F</option>
                                 </select>
                                 <small class="text-danger"><?= $validation['emp_gender'] ?? null ?></small>
+                            </div>
+                            <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
+                                <div class="form-group">
+                                    <label class="floating-label" for="Text">Salaire de Base USD</label>
+                                    <input type="text" class="form-control" id="Text" placeholder="" name="amount_smig"
+                                           value="<?= (set_value('amount_smig')) ? set_value('amount_smig') : $employee->amountSmig ?>">
+                                    <small class="text-danger"><?= $validation['amount_smig'] ?? null ?></small>
+                                </div>
                             </div>
 
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
@@ -120,7 +130,7 @@
                                     <small class="text-danger"><?= $validation['emp_email'] ?? null ?></small>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
+                            <div class="col-xl-12 col-md-12 mb-md-0 mb-sm-12">
                                 <div class="form-group">
                                     <label class="floating-label" for="Text">Adresse de résidence</label>
                                     <input type="text" class="form-control" id="Text" placeholder="" name="emp_location"

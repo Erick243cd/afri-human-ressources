@@ -6,7 +6,6 @@ use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use function PHPUnit\Framework\returnArgument;
 
 class Employees extends BaseController
 {
@@ -54,7 +53,6 @@ class Employees extends BaseController
                     'rules' => 'required',
                     'errors' => ['required' => 'Le champ {field} est requis.'],
                 ],
-
                 'categoryId' => [
                     'label' => 'Catégories',
                     'rules' => 'required',
@@ -75,6 +73,15 @@ class Employees extends BaseController
                     'errors' => [
                         'required' => 'Le champ {field}  est requis',
                     ]
+                ],
+
+                'amount_smig' => [
+                    'label' => 'Salaire de base',
+                    'rules' => 'required|is_numeric',
+                    'errors' => [
+                        'required' => 'Le champ {field} est requis.',
+                        'is_numeric' => 'Le champ {field} doit contenir un nombre.'
+                    ],
                 ],
                 'emp_phone' => [
                     'label' => 'Téléphone',
@@ -119,7 +126,8 @@ class Employees extends BaseController
                     'address' => htmlentities($this->request->getVar("emp_location")),
                     'email' => htmlentities($this->request->getVar("emp_email")),
                     'categoryId' => htmlentities($this->request->getVar("categoryId")),
-                    'serviceId' => htmlentities($this->request->getVar("serviceId"))
+                    'serviceId' => htmlentities($this->request->getVar("serviceId")),
+                    'amountSmig' => htmlentities($this->request->getVar("amount_smig"))
                 ];
 
                 $this->employeeModel->save($data);
@@ -185,6 +193,14 @@ class Employees extends BaseController
                             'required' => 'Le champ {field}  est requis'
                         ]
                     ],
+                    'amount_smig' => [
+                        'label' => 'Salaire de base',
+                        'rules' => 'required|is_numeric',
+                        'errors' => [
+                            'required' => 'Le champ {field} est requis.',
+                            'is_numeric' => 'Le champ {field} doit contenir un nombre.'
+                        ],
+                    ],
                     'emp_gender' => [
                         'label' => 'Service',
                         'rules' => 'required|in_list[M,F]',
@@ -224,7 +240,8 @@ class Employees extends BaseController
                         'address' => htmlentities($this->request->getVar("emp_location")),
                         'email' => htmlentities($this->request->getVar("emp_email")),
                         'categoryId' => htmlentities($this->request->getVar("categoryId")),
-                        'serviceId' => htmlentities($this->request->getVar("serviceId"))
+                        'serviceId' => htmlentities($this->request->getVar("serviceId")),
+                        'amountSmig' => htmlentities($this->request->getVar("amount_smig")),
                     ];
 
 
@@ -497,7 +514,8 @@ class Employees extends BaseController
         echo $output;
     }
 
-    public function point($employeId){
+    public function point($employeId)
+    {
 
     }
 }

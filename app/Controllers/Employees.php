@@ -99,7 +99,11 @@ class Employees extends BaseController
                         'is_unique' => 'L\'adresse mail saisie appartient déjà à un autre employé'
                     ],
                 ],
-
+                'emp_type' => [
+                    'label' => 'Type',
+                    'rules' => 'required',
+                    'errors' => ['required' => 'Le champ {field} est requis']
+                ],
                 'emp_location' => [
                     'label' => 'Adresse de résidence',
                     'rules' => 'required',
@@ -127,7 +131,8 @@ class Employees extends BaseController
                     'email' => htmlentities($this->request->getVar("emp_email")),
                     'categoryId' => htmlentities($this->request->getVar("categoryId")),
                     'serviceId' => htmlentities($this->request->getVar("serviceId")),
-                    'amountSmig' => htmlentities($this->request->getVar("amount_smig"))
+                    'amountSmig' => htmlentities($this->request->getVar("amount_smig")),
+                    'employeeType' => htmlentities($this->request->getVar("emp_type")),
                 ];
 
                 $this->employeeModel->save($data);
@@ -154,7 +159,7 @@ class Employees extends BaseController
         } else {
             $data = [
                 'title' => 'Editer | ' . $employee->firstName . ' ' . $employee->lastName,
-                'categories' => $this->categoryModel->asObject()->orderBy('categoryId', 'DESC')->findAll(),
+                'categories' => $this->categoryModel->asObject()->orderBy('categoryName', 'DESC')->findAll(),
                 'services' => $this->serviceModel->asObject()->orderBy('serviceId', 'DESC')->findAll(),
                 'employee' => $employee,
                 'sess_data' => session()->get('user_data')
@@ -222,7 +227,11 @@ class Employees extends BaseController
                             'is_unique' => 'L\' {field} est déjà porté par un autre employé..',
                         ],
                     ],
-
+                    'emp_type' => [
+                        'label' => 'Type',
+                        'rules' => 'required',
+                        'errors' => ['required' => 'Le champ {field} est requis']
+                    ],
                     'emp_location' => [
                         'label' => 'Adresse de résidence',
                         'rules' => 'required',
@@ -242,6 +251,7 @@ class Employees extends BaseController
                         'categoryId' => htmlentities($this->request->getVar("categoryId")),
                         'serviceId' => htmlentities($this->request->getVar("serviceId")),
                         'amountSmig' => htmlentities($this->request->getVar("amount_smig")),
+                        'employeeType' => htmlentities($this->request->getVar("emp_type"))
                     ];
 
 

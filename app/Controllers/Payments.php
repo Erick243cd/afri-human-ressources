@@ -6,6 +6,7 @@ use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use org\bovigo\vfs\vfsStreamContainerIterator;
 
 class Payments extends BaseController
 {
@@ -65,33 +66,22 @@ class Payments extends BaseController
     {
         if (!isLoggedIn()) return redirect()->to('login');
 
-        if ($this->request->getMethod() === 'post') {
-            $year = $this->request->getVar('yearSearch');
-            $month = $this->request->getVar('monthSearch');
-            $wheres = ['employeId' => $employeeId, 'taillyYear' => $year, 'taillyMonth' => $month];
-
-        } else {
-            $year = date('Y');
-            $month = date('m');
-            $wheres = [
-                'employeId' => $employeeId, 'taillyYear' => $year, 'taillyMonth' => $month, 'taillyPoint' => 1, 'taillyStatus' => 1
-            ];
-        }
+        $year = $this->request->getVar('year');
+        $month = $this->request->getVar('month') ?? date('m');
 
         $data = [
             'employee' => $this->employeeModel->asObject()
                 ->join('hrm_categories', 'hrm_categories.categoryId=hrm_employees.categoryId')
-                ->join('hrm_smigs', 'hrm_smigs.category_id=hrm_categories.categoryId')
                 ->join('hrm_services', 'hrm_services.serviceId=hrm_employees.serviceId')
                 ->where('id', $employeeId)->first(),
             'title' => 'Bulletin de Paie',
-            'month' => $month,
-            'year' => $year,
-            'point_data' => $this->pointageModel->asObject()
-                ->where($wheres)->findAll()
+            'payment' => $this->paymentModel->asObject()
+                ->join('hrm_years', 'hrm_years.yearId=hrm_payments.paymentYear')
+                ->where(['employeeId' => $employeeId, 'paymentYear' => $year, 'paymentMonth' => $month])->first()
         ];
-        if (empty($data['employee'])) {
-            return view('errors/error-404');
+        if (empty($data['employee']) || empty($data['payment'])) {
+            $error_msg['msg'] = "Quelque chose s'est mal passé, veuillez reprendre le processus de paiement";
+            return view('errors/error-404', $error_msg);
         }
 
         $filename = "./public/assets/images/invoices/{$data['employee']->id}.png";
@@ -122,6 +112,171 @@ class Payments extends BaseController
         exit(0);
 
     }
+
+    public function elements($employeeId)
+    {
+        if (!isLoggedIn()) return redirect()->to('login');
+        $employee = $this->employeeModel->asObject()->where('id', $employeeId)->first();
+        if (!empty($employee)) {
+
+            $data = [
+                'employee' => $employee,
+                'sess_data' => session()->get('user_data'),
+                'years' => $this->yearModel->asObject()->orderBy('yearName', 'ASC')->findAll(),
+                'months' => $this->pointageModel->asObject()->distinct()->select('taillyMonth')->where('employeId', $employeeId)->findAll(),
+                'title' => 'Elements de paie',
+            ];
+            return view('payments/elements', $data);
+        } else {
+            return view('errors/error-404');
+        }
+    }
+
+    public function saveSalary($employeeId)
+    {
+        if (!isLoggedIn()) return redirect()->to('login');
+        $employee = $this->employeeModel->asObject()->where('id', $employeeId)->first();
+
+        if (!empty($employee)) {
+
+            $year = $this->request->getVar('year');
+            $month = $this->request->getVar('month') ?? date('m');
+
+            $wheres = [
+                'employeId' => $employeeId, 'yearId' => $year, 'taillyMonth' => $month, 'taillyPoint' => 1, 'taillyStatus' => 1
+            ];
+
+            $daysWorked = count($this->pointageModel->asObject()->where($wheres)->findAll());
+
+            if ($daysWorked >= 2) {
+                $baseSalary = $employee->amountSmig * ((int)$daysWorked / 2);//Returne la partie entière après la division
+            } else {
+                $baseSalary = 0;
+            }
+
+            $primes = $this->request->getVar('prime_amount');
+            $advantages = $this->request->getVar('advantage_amount');
+            //Salaire de base imposable
+            $baseSalaryRequired = $baseSalary + $primes + $advantages;
+
+            $locationIndemnity = $baseSalary * 0.3; //3% fixés par le code du travail congolais
+
+            //Transport Indemnity
+            $transportIndemnity = 0;
+
+
+            if (isset($month, $year)) {
+                $transportData = $this->tauxTransportModel->asObject()
+                    ->join('hrm_years', 'hrm_years.yearId=hrm_tauxtransports.yearId')
+                    ->where(['hrm_tauxtransports.yearId' => $year, 'tauxMonth' => $month])
+                    ->first();
+
+
+                if (!empty($transportData)) {
+                    if ($employee->employeeType === 'Manager') {
+                        $transportIndemnity = ($transportData->amountManager * 4) * 26;
+                        //26 nombre de jours prestés mensuellement
+                    } else {
+                        $transportIndemnity = ($transportData->amountSimpleEmployee * 4) * 26;
+                    }
+                } else {
+                    $data['msg'] = "Aucun taux de transport n'a été trouvé pour l'année que vous avez sélectionnée! 
+                    Veuillez fixer le taux de transport pour l'année sélectionnée puis reprenez l'opération !";
+                    return view('errors/error-404', $data);
+                }
+            } else {
+                $transportIndemnity = activeTransportIndemnity($employee->employeeType * 4) * 26;
+            }
+
+
+            $bruteRemuneration = $baseSalaryRequired + $locationIndemnity + $transportIndemnity;
+
+
+            /*
+             * Déduction
+             */
+
+            /*
+             * CNSS
+             */
+            $qpo = $baseSalaryRequired * 0.05;
+            $qpp = $baseSalaryRequired * 0.13;
+            $cnss = $qpo + $qpp;
+
+
+            /*
+             * INPP & ONEM
+             */
+
+            $inpp = $baseSalaryRequired * 0.30;
+            $onem = $baseSalaryRequired * 0.002;
+
+            /*
+             * IPR
+             */
+            $taux = 2000;
+            $baseSalaryRequiredToCdf = $baseSalaryRequired * $taux; //Taux CDF Actuel
+
+            $tranche1 = 162000 * 0.03;
+            $departTranche2 = $baseSalaryRequiredToCdf - 162000;
+
+            $tranche2 = 1800000 * 0.15;
+            $departTranche3 = $departTranche2 - 1800000;
+
+            $tranche3 = 3600000 * 0.30;
+            $departTranche4 = $departTranche3 - 3600000;
+
+            $tranche4 = 5138000 * 0.40;
+
+            //IPR
+            $ipr = $tranche1 + $tranche2 + $tranche3 + $tranche4;
+
+            $iprToUSD = $ipr / $taux;
+
+            /*
+             * ========================================================
+             */
+            $netSalary = $bruteRemuneration - $cnss - $inpp - $onem;// - $iprToUSD;
+
+
+            $payment = $this->paymentModel->asObject()->where(['employeeId' => $employeeId, 'paymentMonth' => $month, 'paymentYear' => $year])->first();
+
+            $newPaymentData = [
+                'employeeId' => $employeeId,
+                'daysWorked' => (int)$daysWorked / 2,
+                'paymentDate' => date('Y-m-d'),
+                'updatedAt' => date('Y-m-d'),
+                'paymentMonth' => $month,
+                'paymentYear' => $year,
+                'baseSalary' => $baseSalary,
+                'primes' => $primes,
+                'advantages' => $advantages,
+                'baseSalaryRequired' => $baseSalaryRequired,
+                'locationIndemnity' => $locationIndemnity,
+                'transportIndemnity' => $transportIndemnity,
+                'bruteRemuneration' => $bruteRemuneration,
+                'cnssQpo' => $qpo,
+                'cnssQpp' => $qpp,
+                'inpp' => $inpp,
+                'onem' => $onem,
+                'ipr' => $iprToUSD,
+                'netSalary' => $netSalary,
+                'userId' => session()->get('user_data')->user_id
+            ];
+
+            if (empty($payment)) {
+                $this->paymentModel->save($newPaymentData);
+            } else {
+                $wheres = ['paymentId' => $payment->paymentId];
+                $this->paymentModel->set($newPaymentData)->where($wheres)->update();
+            }
+            $this->invoice($employeeId);
+
+        } else {
+            return view('errors/error-404');
+        }
+    }
+
 
     public function generateQrCode($employeId)
     {
@@ -169,4 +324,48 @@ class Payments extends BaseController
         return true;
     }
 
+
+    /*
+     * Payment Listing
+     *
+     */
+
+    public function paymentListing()
+    {
+        if (!isLoggedIn()) return redirect()->to('login');
+
+        if ($this->request->getMethod() === 'post') {
+            $wheres = [
+                'paymentMonth' => $this->request->getVar('month'),
+                'paymentYear' => $this->request->getVar('year'),
+            ];
+        } else {
+
+            $year = $this->yearModel->asObject()->where(['yearName' => date('Y')])->first()->yearId;
+            $wheres = [
+                'paymentMonth' => date('m'),
+                'paymentYear' => $year
+            ];
+        }
+
+        $payments = $this->paymentModel->asObject()
+            ->orderBy('firstName', 'ASC')
+            ->join('hrm_employees', 'hrm_employees.id=hrm_payments.employeeId')
+            ->join('hrm_years', 'hrm_years.yearId=hrm_payments.paymentYear')
+            ->join('hrm_categories', 'hrm_categories.categoryId=hrm_employees.categoryId')
+            ->join('hrm_services', 'hrm_services.serviceId=hrm_employees.serviceId')
+            ->where($wheres)->findAll();
+        $massSalary = $this->paymentModel->asObject()->selectSum('netSalary')
+            ->where($wheres)->findAll();
+
+        $data = [
+            'title' => 'Listing de paie',
+            'sess_data' => session()->get('user_data'),
+            'payments' => $payments,
+            'massSalary' => $massSalary,
+            'years' => $this->yearModel->asObject()->orderBy('yearName', 'ASC')->findAll()
+        ];
+
+        return view('payments/listing', $data);
+    }
 }

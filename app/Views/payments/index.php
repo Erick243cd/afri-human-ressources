@@ -69,7 +69,7 @@
                                         <td><?= $row->categoryName ?></td>
                                         <!--                                            <td>--><!--</td>-->
                                         <td class="flex justify-align-content">
-                                            <a href="<?= site_url('invoice-card-employee/' . $row->id) ?>"
+                                            <a href="<?= site_url('payment-elements/' . $row->id) ?>"
                                                class="btn btn-sm btn-success"><i class="fas fa-user-check mr-1"></i>Paie</a>
                                             <a href="<?= site_url('presences-list/' . $row->id) ?>"
                                                class="btn btn-sm btn-primary"><i class="fas fa-edit mr-1"></i>Précences</a>

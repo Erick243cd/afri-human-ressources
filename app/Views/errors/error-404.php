@@ -31,8 +31,9 @@
                 <div class="text-center">
                     <img src="<?= site_url() ?>public/assets/images/maintenance/404.png" alt="" class="img-fluid">
                     <h5 class="text-muted my-4">Oops! Page non retrouvée !</h5>
+                    <p> <?= $msg ?? '' ?></p>
                     <form action="">
-                        <a href="<?= site_url()?>" class="btn waves-effect waves-light btn-primary mb-4"><i
+                        <a href="<?= site_url() ?>" class="btn waves-effect waves-light btn-primary mb-4"><i
                                     class="feather icon-refresh-ccw mr-2"></i>Recharger
                         </a>
                     </form>

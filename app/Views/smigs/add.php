@@ -48,8 +48,8 @@
                                 <h5>Devise</h5>
                                 <hr>
                                 <select class="js-example-placeholder-multiple col-sm-12" name="currency">
-                                        <option value="USD" <?= set_select('currency', "USD"); ?>>USD</option>
-                                        <option value="CDF" <?= set_select('currency', "CDF"); ?>>CDF</option>
+                                    <option value="USD" <?= set_select('currency', "USD"); ?>>USD</option>
+                                    <option value="CDF" <?= set_select('currency', "CDF"); ?>>CDF</option>
                                 </select>
                                 <small class="text-danger"><?= $validation['currency'] ?? null ?></small>
                             </div>
@@ -59,7 +59,8 @@
                                 <hr>
                                 <div class="form-group">
                                     <label class="floating-label" for="Text">Montant journalier fixé</label>
-                                    <input type="number" step="any" class="form-control" id="Text" placeholder="" name="smig_amount"
+                                    <input type="number" step="any" class="form-control" id="Text" placeholder=""
+                                           name="smig_amount"
                                            value="<?= set_value('smig_amount') ?>">
                                     <small class="text-danger"><?= $validation['smig_amount'] ?? null ?></small>
                                 </div>

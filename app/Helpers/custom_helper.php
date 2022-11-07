@@ -1,4 +1,5 @@
 <?php
+
 if (!function_exists('isLoggedIn')) {
 
     function isLoggedIn()
@@ -26,12 +27,13 @@ if (!function_exists('isLoggedIn')) {
 //    }
 //}
 
-if (!function_exists('systemUpdates')){
-    function systemUpdates(){
+if (!function_exists('systemUpdates')) {
+    function systemUpdates()
+    {
         $actualDate = date('Y-m-d');
-        if ($actualDate >= '2022-10-01'){
+        if ($actualDate >= '2022-10-01') {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -44,4 +46,17 @@ function dateToFrench($date, $format)
     $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
     $french_months = array('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre');
     return str_replace($english_months, $french_months, str_replace($english_days, $french_days, date($format, strtotime($date))));
+}
+
+function activeTransportIndemnity($employeType)
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('hrm_tauxtransports');
+    $data = $builder->getWhere(['status' => 1])->getFirstRow();
+    if ($employeType === 'Manager') {
+        return $data->amountManager;
+    } else {
+        return $data->amountSimpleEmployee;
+    }
 }

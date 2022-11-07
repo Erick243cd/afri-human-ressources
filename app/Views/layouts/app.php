@@ -98,8 +98,8 @@
                         <li class="pcoded-hasmenu"><a href="#!">Paie</a>
                             <ul class="pcoded-submenu">
                                 <li><a href="<?= site_url('new-payment') ?>">Nouvelle</a></li>
-                                <li><a href="#!">Allocations</a></li>
-                                <li><a href="#!">Primes</a></li>
+                                <li><a href="<?= site_url('payments-listing')?>">Listing</a></li>
+<!--                                <li><a href="#!">Primes</a></li>-->
                             </ul>
                         </li>
                     </ul>

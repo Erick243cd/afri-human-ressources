@@ -77,7 +77,7 @@
                                                 </li>
                                             </ul>
                                             <div class="mt-2">
-                                                <a href="<?= site_url('invoice-card-employee/' . $employee->id) ?>"
+                                                <a href="<?= site_url('payment-elements/' . $employee->id) ?>"
                                                    class="mr-3 text-muted"><i
                                                             class="feather icon-eye mr-1"></i>Bulletin de paie</a>
                                                 <a href="<?= site_url('service-card-employee/' . $employee->id) ?>"

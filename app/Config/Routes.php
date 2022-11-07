@@ -118,6 +118,12 @@ $routes->post('presences-list/(:segment)', 'Payments::presenceList/$1');
 $routes->post('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
 $routes->get('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
 
+$routes->get('payment-elements/(:segment)', 'Payments::elements/$1');
+$routes->post('save-salary-elements/(:segment)', 'Payments::saveSalary/$1');
+
+$routes->post('payments-listing', 'Payments::paymentListing');
+$routes->get('payments-listing', 'Payments::paymentListing');
+
 
 /*
  * Transport Taux routes

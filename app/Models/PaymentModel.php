@@ -10,9 +10,9 @@ class PaymentModel extends Model
     protected $table = 'hrm_payments';
     protected $primaryKey = 'paymentId';
     protected $useAutoIncrement = true;
-    protected $allowedFields = ['paymentId', 'employeId', 'daysWorked',
-        'paymentDate', 'updatedAt', 'payementMonth', 'paymentYear', 'baseSalary',
+    protected $allowedFields = ['paymentId', 'employeeId', 'daysWorked',
+        'paymentDate', 'updatedAt', 'paymentMonth', 'paymentYear', 'baseSalary',
         'primes', 'advantages', 'baseSalaryRequired', 'locationIndemnity', 'transportIndemnity',
-        'bruteRemuneration', 'cnssQpo', 'cnssQpp', 'inpp', 'onem', 'ipr', 'netSalary'];
+        'bruteRemuneration', 'cnssQpo', 'cnssQpp', 'inpp', 'onem', 'ipr', 'netSalary', 'userId'];
 
 }

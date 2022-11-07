@@ -217,7 +217,7 @@
         <span>SERVICE </span> <strong><?= $employee->serviceName ?></strong>
     </div>
     <div class="content-bloc-perso">
-        <span>CATEGORIE </span> <strong><?= $employee->categoryName ?></strong>
+        <span>CATéGORIE </span> <strong><?= $employee->categoryName ?></strong>
     </div>
     <div class="content-bloc-perso">
         <span>Email </span> <strong><?= $employee->email ?></strong>
@@ -233,48 +233,42 @@
         <h3>INFORMATIONS DE PAIE</h3>
     </div>
     <div class="content-bloc">
-        <span>MOIS</span> <strong><?= dateToFrench($month, 'F') ?></strong>
+        <span>MOIS</span> <strong><?= $payment->paymentMonth . '/' . $payment->yearName ?></strong>
     </div>
     <div class="content-bloc">
-        <span>ANNEE </span> <strong><?= $year ?></strong>
+        <span>ANNEE </span> <strong><?= $payment->yearName ?></strong>
     </div>
     <div class="content-bloc">
         <span>NOMBRE DE JOURS PRESTES </span>
-        <strong><?= count($point_data) >= 2 ? count($point_data) / 2 : 0 ?></strong>
+        <strong><?= $payment->daysWorked ?></strong>
     </div>
     <div class="content-bloc">
         <span>SALAIRE MOYEN JOURNALIER </span>
-        <strong><?= ($employee->smig_amount) ? number_format($employee->smig_amount, 2, ',', " ") . ' ' . $employee->currency : "Pas encore fixé" ?> </strong>
+        <strong><?= number_format($employee->amountSmig, 2, ',', " ") . "USD" ?> </strong>
     </div>
 </div>
 
 <div class="perso-info">
-    <h3>ALLOCATIONS</h3>
+    <h3>INDEMNITéS</h3>
 </div>
 
 <div class="content-perso-info">
     <div class="content-bloc-param">
-        <span>FAMILIALES </span> <strong><?= 0, 00, $employee->currency ?></strong>
+        <span>LOGEMENT </span> <strong><?= number_format($payment->locationIndemnity, 2, ',', " ") . "USD" ?></strong>
     </div>
     <div class="content-bloc-param">
-        <span>TRANSPORT </span> <strong><?= 0, 00, $employee->currency ?></strong>
-    </div>
-    <div class="content-bloc-param">
-        <span>AUTRES </span> <strong><?= 0, 00, $employee->currency ?></strong>
+        <span>TRANSPORT </span> <strong><?= number_format($payment->transportIndemnity, 2, ',', " ") . "USD" ?></strong>
     </div>
 </div>
 <div class="perso-info">
-    <h3>PRIMES</h3>
+    <h3>PRIMES ET AVANTAGES</h3>
 </div>
 <div class="content-perso-info">
     <div class="content-bloc-param">
-        <span>ANCIENNETE </span> <strong><?= 0, 00, $employee->currency ?></strong>
+        <span>PRIMES </span> <strong><?= number_format($payment->primes, 2, ',', " ") . "USD" ?></strong>
     </div>
     <div class="content-bloc-param">
-        <span>ASSIDUTE </span> <strong><?= 0, 00, $employee->currency ?></strong>
-    </div>
-    <div class="content-bloc-param">
-        <span>AUTRES </span> <strong><?= 0, 00, $employee->currency ?></strong>
+        <span>AVANTAGES </span> <strong><?= number_format($payment->advantages, 2, ',', " ") . "USD" ?></strong>
     </div>
 </div>
 
@@ -283,10 +277,17 @@
 </div>
 <div class="content-perso-info">
     <div class="content-bloc-param">
-        <span>SECURITE SOCIALE (CNSS) </span> <strong><?= 0, 00, $employee->currency ?></strong>
+        <span>SECURITé SOCIALE (CNSS) </span>
+        <strong><?= number_format($payment->cnssQpo + $payment->cnssQpp, 2, ',', " ") . "USD" ?></strong>
     </div>
     <div class="content-bloc-param">
-        <span>AUTRES </span> <strong><?= 0, 00, $employee->currency ?></strong>
+        <span>INPP </span> <strong><?= number_format($payment->inpp, 2, ',', " ") . "USD" ?></strong>
+    </div>
+    <div class="content-bloc-param">
+        <span>ONEM </span> <strong><?= number_format($payment->onem, 2, ',', " ") . "USD" ?></strong>
+    </div>
+    <div class="content-bloc-param">
+        <span>IPR </span> <strong><?= number_format($payment->ipr, 2, ',', " ") . "USD" ?></strong>
     </div>
 </div>
 <div class="perso-info" style="background-color: #5fa2ed!important;">
@@ -294,21 +295,8 @@
 </div>
 <div class="content-perso-info">
     <div class="content-bloc-param">
-        <?php
-        $nbDays = count($point_data) / 2;
-        $smig = $employee->smig_amount;
-        $net = null;
-
-        if ($nbDays < 1) {
-            $net = 0;
-        } elseif ($nbDays % 2 == 0) {
-            $nbDays -= 1;
-            $net = $smig * $nbDays;
-        } else {
-            $net = $smig * $nbDays;
-        }
-        ?>
-        <span>SALAIRE NET </span> <strong><?= number_format($net, 2, '.', ' ') . ' ' . $employee->currency ?></strong>
+        <span>SALAIRE NET </span>
+        <strong><?= number_format($payment->netSalary, 2, '.', ' ') . ' ', "USD" ?></strong>
     </div>
 </div>
 </body>

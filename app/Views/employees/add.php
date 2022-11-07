@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
-                                <h5>Catégorie d'employé</h5>
+                                <h5>Fonction</h5>
                                 <select class="js-example-placeholder-multiple col-sm-12" name="categoryId">
                                     <?php foreach ($categories as $category) : ?>
                                         <option value="<?= $category->categoryId ?>"<?= set_select('categoryId', $category->categoryId); ?>>
@@ -84,10 +84,24 @@
                                 <small class="text-danger"><?= $validation['categoryId'] ?? null ?></small>
                             </div>
 
-
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
-                                <h5>Genre</h5>
+                                <h5>Type</h5>
+                                <select class="js-example-placeholder-multiple col-sm-12" name="emp_type">
+                                    <option value="Simple Employé"<?= set_select('emp_type', 'Simple Employé'); ?>>
+                                        Simple Employé
+                                    <option>
+                                    <option value="Manager"<?= set_select('emp_type', 'Manager'); ?>>
+                                        Manager
+                                    <option>
+
+                                </select>
+                                <small class="text-danger"><?= $validation['employee_type'] ?? null ?></small>
+                            </div>
+
+                            <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5 mt-2">
+
                                 <select class="js-example-placeholder-multiple col-sm-12" name="emp_gender">
+                                    <option value="Genre" disabled>Genre</option>
                                     <option value="M" <?= set_select('emp_gender', "M"); ?>>M</option>
                                     <option value="F" <?= set_select('emp_gender', "F"); ?>>F</option>
                                 </select>
@@ -119,8 +133,7 @@
                                 </div>
                             </div>
 
-
-                            <div class="col-xl-12 col-md-12 mb-md-0 mb-sm-12">
+                            <div class="col-xl-8 col-md-8 mb-md-0 mb-sm-8">
                                 <div class="form-group">
                                     <label class="floating-label" for="Text">Adresse de résidence</label>
                                     <input type="text" class="form-control" id="Text" placeholder="" name="emp_location"

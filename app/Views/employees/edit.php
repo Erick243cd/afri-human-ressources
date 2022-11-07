@@ -95,7 +95,21 @@
                                 <small class="text-danger"><?= $validation['categoryId'] ?? null ?></small>
                             </div>
                             <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5">
-                                <h5>Genre</h5>
+                                <h5>Type</h5>
+                                <select class="js-example-placeholder-multiple col-sm-12" name="emp_type">
+                                    <option selected
+                                            value="<?= $employee->employeeType ?>"<?= set_select('emp_type', $employee->employeeType); ?>>
+                                        <?= $employee->employeeType ?>
+                                    <option value="Simple Employé"<?= set_select('emp_type', 'Simple Employé'); ?>>
+                                        Simple Employé
+                                    <option>
+                                    <option value="Manager"<?= set_select('emp_type', 'Manager'); ?>>
+                                        Manager
+                                    <option>
+                                </select>
+                                <small class="text-danger"><?= $validation['emp_type'] ?? null ?></small>
+                            </div>
+                            <div class="col-xl-4 col-md-4 mb-md-0 mb-sm-5 mt-2">
                                 <select class="js-example-placeholder-multiple col-sm-12" name="emp_gender">
                                     <option selected
                                             value="<?= $employee->gender ?>"<?= set_select('emp_gender', $employee->gender); ?>>
@@ -130,7 +144,7 @@
                                     <small class="text-danger"><?= $validation['emp_email'] ?? null ?></small>
                                 </div>
                             </div>
-                            <div class="col-xl-12 col-md-12 mb-md-0 mb-sm-12">
+                            <div class="col-xl-8 col-md-8 mb-md-0 mb-sm-5">
                                 <div class="form-group">
                                     <label class="floating-label" for="Text">Adresse de résidence</label>
                                     <input type="text" class="form-control" id="Text" placeholder="" name="emp_location"
@@ -138,7 +152,6 @@
                                     <small class="text-danger"><?= $validation['emp_location'] ?? null ?></small>
                                 </div>
                             </div>
-
 
                             <button class="btn btn-primary ml-3" type="submit">Mettre à jour</button>
                         </div>

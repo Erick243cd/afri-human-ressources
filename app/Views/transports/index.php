@@ -61,8 +61,8 @@
                                     <tr>
                                         <td><?= $row->yearName ?></td>
                                         <td><?= $row->tauxMonth ?></td>
-                                        <td><?= number_format($row->amountManager, 2, ',', ' ') ?> CDF</td>
-                                        <td><?= number_format($row->amountSimpleEmployee, 2, ',', ' ') ?> CDF</td>
+                                        <td><?= number_format($row->amountManager, 2, ',', ' ') ?> USD</td>
+                                        <td><?= number_format($row->amountSimpleEmployee, 2, ',', ' ') ?> USD</td>
                                         <td>
                                             <span class="<?= $row->status == 1 ? 'text-success bg-light' : 'text-danger' ?>"><?= $row->status == 1 ? 'Actif' : 'Inactif' ?></span>
                                         </td>

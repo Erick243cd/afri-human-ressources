@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\CategoryModel;
 use App\Models\EmployeeModel;
+use App\Models\PaymentModel;
 use App\Models\PointageModel;
 use App\Models\ServiceModel;
 use App\Models\SmigModel;
@@ -66,6 +67,7 @@ abstract class BaseController extends Controller
         $this->pointageModel = new PointageModel();
         $this->tauxTransportModel = new TauxTransportModel();
         $this->yearModel = new YearModel();
+        $this->paymentModel =  new PaymentModel();
 
         helper(['form', 'url', 'text', 'img', 'custom', 'html']);
     }

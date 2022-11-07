@@ -77,7 +77,7 @@
                                 <h5>Manager</h5>
                                 <hr>
                                 <div class="form-group">
-                                    <label class="floating-label" for="Text">Montant journalier fixé CDF</label>
+                                    <label class="floating-label" for="Text">Montant journalier fixé USD</label>
                                     <input type="number" step="any" class="form-control" id="Text" placeholder=""
                                            name="manager_amount"
                                            value="<?= (set_value('manager_amount')) ? set_value('manager_amount') : $taux->amountManager ?>">
@@ -88,7 +88,7 @@
                                 <h5>Simple employé </h5>
                                 <hr>
                                 <div class="form-group">
-                                    <label class="floating-label" for="Text">Montant journalier fixé CDF</label>
+                                    <label class="floating-label" for="Text">Montant journalier fixé USD</label>
                                     <input type="number" step="any" class="form-control" id="Text" placeholder=""
                                            name="simple_amount"
                                            value="<?= (set_value('simple_amount')) ? set_value('simple_amount') : $taux->amountSimpleEmployee ?>">

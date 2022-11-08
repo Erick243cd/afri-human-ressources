@@ -29,10 +29,9 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row align-items-center m-l-0">
-                            <div class="col-sm-6">
-                            </div>
-
+                        <div class="row align-items-right m-l-0">
+                            <a href="<?= site_url('general-payment-elements') ?>" class="btn btn-sm btn-primary text-right mb-2"> Paie
+                                Générale </a>
                         </div>
                         <div class="table-responsive">
                             <!--       FLASH DATA                         -->

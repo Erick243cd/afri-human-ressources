@@ -6,7 +6,6 @@ use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use org\bovigo\vfs\vfsStreamContainerIterator;
 
 class Payments extends BaseController
 {
@@ -130,6 +129,22 @@ class Payments extends BaseController
         } else {
             return view('errors/error-404');
         }
+    }
+
+    /*
+     * Elements for all payments.
+     */
+    public function elementForGeneralPayment()
+    {
+        if (!isLoggedIn()) return redirect()->to('login');
+
+        $data = [
+            'sess_data' => session()->get('user_data'),
+            'years' => $this->yearModel->asObject()->orderBy('yearName', 'ASC')->findAll(),
+            'months' => $this->pointageModel->asObject()->distinct()->select('taillyMonth')->findAll(),
+            'title' => 'Elements de la paie générale',
+        ];
+        return view('payments/general_elements', $data);
     }
 
     public function saveSalary($employeeId)

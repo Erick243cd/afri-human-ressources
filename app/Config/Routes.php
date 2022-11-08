@@ -119,6 +119,7 @@ $routes->post('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
 $routes->get('invoice-card-employee/(:segment)', 'Payments::invoice/$1');
 
 $routes->get('payment-elements/(:segment)', 'Payments::elements/$1');
+$routes->get('general-payment-elements', 'Payments::elementForGeneralPayment');
 $routes->post('save-salary-elements/(:segment)', 'Payments::saveSalary/$1');
 
 $routes->post('payments-listing', 'Payments::paymentListing');
